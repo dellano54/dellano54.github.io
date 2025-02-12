@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry, My Love 💜</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="npc_styles.css">
+</head>
+<body>
+
+    <!-- Floating Hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="heart" style="left: 80%; animation-delay: 1s;"></div>
+
+    <!-- Story Sections -->
+    <div class="section" id="section1">
+        <div class="story-box show">
+            <h1>💔 I'm Sorry</h1>
+            <p>I never meant to hurt you. The words I said, the way I raised my voice—I regret it deeply. You are the most precious person in my life, and I should never have let my frustration overshadow the love I have for you.</p>
+        </div>
+    </div>
+
+    <div class="section" id="section2">
+        <div class="story-box show">
+            <h1>📸 Our Beautiful Memories</h1>
+            <p>Every moment with you is a gift. Your laughter, your warmth, the way your eyes light up when you're happy—these are the things I cherish most in this world. And yet, I allowed a fleeting moment of anger to cloud my judgment. That was my mistake, and I own it completely</p>
+        </div>
+    </div>
+
+    <div class="section" id="section3">
+        <div class="story-box show">
+            <h1>💞 My Promise</h1>
+            <p>I want you to know that my love for you is stronger than any argument, any misunderstanding. I never want to be the reason for your sadness. I should have listened better, spoken softer, and held you closer instead of letting my emotions take over.</p>
+        </div>
+    </div>
+
+    <div class="section" id="section4">
+        <div class="story-box show">
+            <h1>🌟 Us Forever</h1>
+            <p>I promise to be better—for you, for us. To be more patient, more understanding, and to always choose love over anger. Because you are my heart, my home, my forever.
+                Please forgive me, my love. Let’s turn this page together and continue writing our beautiful story. 💜</p>
+        </div>
+    </div>
+
+    <!-- Hopping Chibi Guide Avatar -->
+    <div class="npc-avatar">
+        <a href="main.html">
+            <img src="the_avatar.PNG" alt="Chibi Guide">
+            <div class="npc-dialogue" id="npc-text">Tap me to continue!</div>
+        </a>
+    </div>
+
+    <script>
+        let npcAvatar = document.querySelector(".npc-avatar");
+let npcText = document.getElementById("npc-text");
+let sections = document.querySelectorAll(".section");
+let dialogues = [
+    "Hey, I know you're upset...",
+    "I just wanted to say I'm really sorry...",
+    "I shouldn’t have yelled, I love you so much.",
+    "tap me"
+];
+
+function updateNPCDialogue() {
+    let scrollPosition = window.scrollY + window.innerHeight / 2; 
+
+    sections.forEach((section, index) => {
+        let sectionTop = section.offsetTop;
+        let sectionBottom = sectionTop + section.clientHeight;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            npcText.innerText = dialogues[index] || "You're my everything. 💜";
+
+            // Show NPC only in the last section
+            if (index === sections.length - 1) {
+                npcAvatar.style.display = "block";
+            } else {
+                npcAvatar.style.display = "none";
+            }
+        }
+    });
+}
+
+document.addEventListener("scroll", updateNPCDialogue);
+updateNPCDialogue();
+    </script>
+
+</body>
+</html>

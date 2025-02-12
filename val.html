@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine? 💖</title>
+  
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Font Awesome for icons (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    /* General page styling */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background 1.5s ease-in-out;
+    }
+    
+    /* Step styling for the proposal flow */
+    .step {
+      position: absolute;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.9);
+      width: 100%;
+      display: none;
+    }
+    .step.active {
+      opacity: 1;
+      transform: scale(1);
+      display: block;
+    }
+    .btn {
+      background: #ff69b4;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Bouquet container (hidden until YES is clicked) */
+    .bouquet {
+      position: relative;
+      width: 300px;
+      height: 600px;
+    }
+
+    .stem {
+      stroke: green;
+      stroke-width: 4;
+      fill: none;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: grow 3s forwards ease-in-out;
+    }
+
+    .petal {
+      fill: pink;
+      opacity: 0;
+      transform-origin: center;
+      transform: scale(0);
+      animation: bloom 2s forwards ease-in-out 2.5s;
+    }
+
+    .center {
+      fill: yellow;
+      opacity: 0;
+      transform: scale(0);
+      animation: bloom 1.5s forwards ease-in-out 3s;
+    }
+
+    @keyframes grow {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes bloom {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Step 0: Welcome Screen -->
+  <section id="step0" class="step active">
+    <div class="p-8 bg-white rounded-lg shadow-lg">
+      <h1 class="text-3xl font-bold text-pink-500 mb-4">💖 Hey, Love!</h1>
+      <p class="text-gray-700 mb-6">I've got something special for you...</p>
+      <button class="btn" onclick="nextStep(1)">💘 Let's go!</button>
+    </div>
+  </section>
+  
+  <!-- Step 1: Love Question -->
+  <section id="step1" class="step">
+    <div class="p-8 bg-white rounded-lg shadow-lg">
+      <h2 class="text-3xl font-bold text-pink-500 mb-4">💞 Do you know how much I love you?</h2>
+      <div class="space-x-4">
+        <button class="btn" onclick="nextStep(2)">❤️ A lot?</button>
+        <button class="btn" onclick="nextStep(2)">💖 More than anything?</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Step 2: More Love -->
+  <section id="step2" class="step">
+    <div class="p-8 bg-white rounded-lg shadow-lg">
+      <h2 class="text-3xl font-bold text-pink-500 mb-4">✨ You make my world brighter!</h2>
+      <p class="text-gray-700 mb-6">And I wouldn't trade you for anything.</p>
+      <button class="btn" onclick="nextStep(3)">😊 Awww!</button>
+    </div>
+  </section>
+  
+  <!-- Step 3: Proposal -->
+  <section id="step3" class="step">
+    <div class="p-8 bg-white rounded-lg shadow-lg">
+      <h1 id="proposalText" class="text-4xl font-bold text-pink-500 mb-6">🌹 Will you be my Valentine?</h1>
+      <div class="flex space-x-4 justify-center">
+        <button class="btn" onclick="showCelebration()">😍 YES!!!</button>
+        <button id="noBtn" class="btn bg-gray-500" onclick="changeNoText()">😢 No :(</button>
+      </div>
+      <!-- Bouquet container -->
+      <div class="bouquet">
+        <svg viewBox="0 0 200 400" width="200" height="400">
+          <!-- Stems -->
+          <path class="stem" d="M100,400 Q90,300 100,200" />
+          <path class="stem" d="M120,400 Q110,310 120,220" />
+          <path class="stem" d="M80,400 Q85,280 90,190" />
+          <path class="stem" d="M140,400 Q130,290 140,210" />
+          <path class="stem" d="M60,400 Q70,270 75,180" />
+          <path class="stem" d="M160,400 Q150,260 155,190" />
+    
+          <!-- Flowers -->
+          <g transform="translate(100,180)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+          <g transform="translate(120,200)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+          <g transform="translate(80,200)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+          <g transform="translate(140,220)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+          <g transform="translate(60,220)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+          <g transform="translate(160,240)">
+            <circle class="petal" cx="0" cy="-15" r="15"/>
+            <circle class="petal" cx="-15" cy="0" r="15"/>
+            <circle class="petal" cx="15" cy="0" r="15"/>
+            <circle class="petal" cx="-10" cy="-10" r="15"/>
+            <circle class="petal" cx="10" cy="-10" r="15"/>
+            <circle class="center" cx="0" cy="0" r="7"/>
+          </g>
+    
+        </svg>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    let noMessages = [
+      "mairu mathri pannatha, please? 🥺", "You know I love you sooo much! ❤️", "C'mon, you know you wanna! 😘", 
+      "Just say yes already! 😂", "Don't break my heart! 💔", "I'll get you chocolates! 🍫", 
+      "What if I puppy-eye you? 🐶🥺", "No isn't an option! 😏", "You're my favorite person! 🌟"
+    ];
+    let noIndex = 0;
+    function changeNoText() {
+      let noBtn = document.getElementById("noBtn");
+      noBtn.innerHTML = `❌ ${noMessages[noIndex]}`;
+      noIndex = (noIndex + 1) % noMessages.length;
+    }
+    function nextStep(step) {
+      document.querySelectorAll('.step').forEach((el, index) => {
+        el.style.display = (index === step) ? "block" : "none";
+        if (index === step) {
+          gsap.fromTo(el, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1 });
+        }
+      });
+    }
+    function showCelebration() {
+      document.getElementById('proposalText').style.display = 'none';
+      document.querySelector('#step3 .flex').style.display = 'none';
+      document.getElementById('flowerBouquet').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
