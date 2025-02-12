@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Will You Be My Valentine? 💖</title>
   
   <!-- Tailwind CSS for styling -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- GSAP for animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <!-- Font Awesome for icons (optional) -->
+  <!-- Font Awesome for icons (if needed) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <style>
@@ -27,7 +27,7 @@
       transition: background 1.5s ease-in-out;
     }
     
-    /* Step styling for the proposal flow */
+    /* Step styling */
     .step {
       position: absolute;
       text-align: center;
@@ -36,11 +36,13 @@
       width: 100%;
       display: none;
     }
+    
     .step.active {
       opacity: 1;
       transform: scale(1);
       display: block;
     }
+    
     .btn {
       background: #ff69b4;
       color: white;
@@ -54,47 +56,46 @@
       align-items: center;
       gap: 8px;
     }
+    
     .btn:hover {
       transform: scale(1.1);
     }
     
-    /* Bouquet container (hidden until YES is clicked) */
-    .bouquet {
-      position: relative;
-      width: 300px;
-      height: 600px;
+    /* Flower bouquet container (hidden until celebration) */
+    #flowerBouquet {
+      display: none;
+      margin-top: 20px;
     }
-
+    
+    /* --- Bouquet SVG Animation Styles --- */
+    /* Stem: thicker and longer */
     .stem {
+      fill: none;
       stroke: green;
       stroke-width: 4;
-      fill: none;
-      stroke-dasharray: 300;
-      stroke-dashoffset: 300;
-      animation: grow 3s forwards ease-in-out;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: grow 3s forwards;
     }
-
-    .petal {
-      fill: pink;
-      opacity: 0;
+    
+    /* Petals and center start hidden and scaled down */
+    .petal, .center {
       transform-origin: center;
       transform: scale(0);
-      animation: bloom 2s forwards ease-in-out 2.5s;
-    }
-
-    .center {
-      fill: yellow;
       opacity: 0;
-      transform: scale(0);
-      animation: bloom 1.5s forwards ease-in-out 3s;
+      animation: bloom 2s forwards;
     }
-
+    
+    /* Delay the blooming until after the stem grows */
+    .petal { animation-delay: 3s; }
+    .center { animation-delay: 3.5s; }
+    
     @keyframes grow {
       to {
         stroke-dashoffset: 0;
       }
     }
-
+    
     @keyframes bloom {
       to {
         transform: scale(1);
@@ -104,7 +105,7 @@
   </style>
 </head>
 <body>
-  <!-- Step 0: Welcome Screen -->
+  <!-- Step 0: Welcome -->
   <section id="step0" class="step active">
     <div class="p-8 bg-white rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-pink-500 mb-4">💖 Hey, Love!</h1>
@@ -141,72 +142,103 @@
         <button class="btn" onclick="showCelebration()">😍 YES!!!</button>
         <button id="noBtn" class="btn bg-gray-500" onclick="changeNoText()">😢 No :(</button>
       </div>
-      <!-- Bouquet container -->
-      <div class="bouquet">
-        <svg viewBox="0 0 200 400" width="200" height="400">
-          <!-- Stems -->
-          <path class="stem" d="M100,400 Q90,300 100,200" />
-          <path class="stem" d="M120,400 Q110,310 120,220" />
-          <path class="stem" d="M80,400 Q85,280 90,190" />
-          <path class="stem" d="M140,400 Q130,290 140,210" />
-          <path class="stem" d="M60,400 Q70,270 75,180" />
-          <path class="stem" d="M160,400 Q150,260 155,190" />
-    
-          <!-- Flowers -->
-          <g transform="translate(100,180)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+      <!-- Flower bouquet container -->
+      <div id="flowerBouquet">
+        <svg viewBox="0 0 300 450" width="300" height="450">
+          <!-- Six flower groups arranged as a bouquet -->
+          <!-- All groups rotate around the common base point (150,400) -->
+          
+          <!-- Flower Group 1: rotated -50° -->
+          <g transform="rotate(-50,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <!-- 5 petals arranged evenly around (0,0) -->
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
-          <g transform="translate(120,200)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+          
+          <!-- Flower Group 2: rotated -30° -->
+          <g transform="rotate(-30,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
-          <g transform="translate(80,200)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+          
+          <!-- Flower Group 3: rotated -10° -->
+          <g transform="rotate(-10,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff69b4" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff69b4" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff69b4" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff69b4" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff69b4" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
-          <g transform="translate(140,220)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+          
+          <!-- Flower Group 4: rotated 10° -->
+          <g transform="rotate(10,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
-          <g transform="translate(60,220)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+          
+          <!-- Flower Group 5: rotated 30° -->
+          <g transform="rotate(30,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ffb6c1" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
-          <g transform="translate(160,240)">
-            <circle class="petal" cx="0" cy="-15" r="15"/>
-            <circle class="petal" cx="-15" cy="0" r="15"/>
-            <circle class="petal" cx="15" cy="0" r="15"/>
-            <circle class="petal" cx="-10" cy="-10" r="15"/>
-            <circle class="petal" cx="10" cy="-10" r="15"/>
-            <circle class="center" cx="0" cy="0" r="7"/>
+          
+          <!-- Flower Group 6: rotated 50° -->
+          <g transform="rotate(50,150,400)">
+            <path class="stem" d="M150,400 Q150,370 150,300" />
+            <g transform="translate(150,300)">
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(72)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(144)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(216)" />
+              <ellipse class="petal" cx="0" cy="-20" rx="10" ry="20" fill="#ff85a2" transform="rotate(288)" />
+            </g>
+            <g transform="translate(150,300)">
+              <circle class="center" cx="0" cy="0" r="8" fill="yellow" />
+            </g>
           </g>
-    
+          
         </svg>
       </div>
     </div>
@@ -214,16 +246,19 @@
   
   <script>
     let noMessages = [
-      "mairu mathri pannatha, please? 🥺", "You know I love you sooo much! ❤️", "C'mon, you know you wanna! 😘", 
+      "Please? 🥺", "You know I love you sooo much! ❤️", "C'mon, you know you wanna! 😘", 
       "Just say yes already! 😂", "Don't break my heart! 💔", "I'll get you chocolates! 🍫", 
       "What if I puppy-eye you? 🐶🥺", "No isn't an option! 😏", "You're my favorite person! 🌟"
     ];
+    
     let noIndex = 0;
+    
     function changeNoText() {
       let noBtn = document.getElementById("noBtn");
       noBtn.innerHTML = `❌ ${noMessages[noIndex]}`;
       noIndex = (noIndex + 1) % noMessages.length;
     }
+    
     function nextStep(step) {
       document.querySelectorAll('.step').forEach((el, index) => {
         el.style.display = (index === step) ? "block" : "none";
@@ -232,9 +267,12 @@
         }
       });
     }
+    
     function showCelebration() {
+      // Hide the proposal text and button container
       document.getElementById('proposalText').style.display = 'none';
       document.querySelector('#step3 .flex').style.display = 'none';
+      // Show the bouquet SVG container
       document.getElementById('flowerBouquet').style.display = 'block';
     }
   </script>
